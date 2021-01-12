@@ -13,7 +13,11 @@ FOLDER_NOTES = "./my-notes/"
 
 
 class NotesApp:
+    """ Keep your notes in a folder, easy to access, search and modify
+    """
     def check_configuration(self):
+        """ Make sure the folder exists
+        """
         if path.exists(FOLDER_NOTES):
             msg = STATUS_FOLDER_EXISTS
             ok = True
@@ -29,13 +33,25 @@ class NotesApp:
         return (ok, msg)
 
     def update_status(self, master, msg):
+        """ Show a message as status
+        """
         self.label_status = ttk.Label(master, text = msg)
 
     def create_editor(self, master):
+        """ Set the editor for notes
+        """
         T = Text(master, height=10, width=60)
         T.grid(row = 1, column = 0, columnspan = 2)
 
+        Label(master, text="File name:").grid(row = 2, column = 0)
+
+        Entry(master).grid(row = 2, column = 1)
+
+
     def __init__(self, master):
+        """ The app
+        """
+
         # Initial configuration
         self.update_status(master, "")
         is_ok, msg = self.check_configuration()
@@ -48,7 +64,6 @@ class NotesApp:
 
 
 def main():
-
     root = Tk()
     app = NotesApp(root)
     root.title("My notes")
