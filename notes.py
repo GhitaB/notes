@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Run with $ python3 hello.py
+# Run with $ python3 notes.py
 
 from tkinter import *
 from tkinter import ttk
@@ -34,6 +34,8 @@ def main():
 
     root = Tk()
     app = NotesApp(root)
+    root.title("My notes")
+    root.minsize(500, 500)
     root.mainloop()
 
 if __name__ == "__main__": main()
