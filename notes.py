@@ -35,19 +35,39 @@ class NotesApp:
     def update_status(self, master, msg):
         """ Show a message as status
         """
-        self.label_status = ttk.Label(master, text = msg)
+        v = StringVar()
+        self.label_status = Label(master, textvariable = v)
+        self.label_status.grid(row = 0, column = 0, columnspan = 3)
+        v.set(msg)
+
+    def save_note(self, master):
+        """ On save
+        """
+        filename = self.entry_filename.get()
+        text = self.text_note.get('1.0', 'end')
+
+        note = open(FOLDER_NOTES + filename, "w")
+        note.write(text)
+        note.close()
+
+        self.update_status(master, "Status: saved ")
 
     def create_editor(self, master):
         """ Set the editor for notes
         """
-        T = Text(master, height=10, width=60)
-        T.grid(row = 1, column = 0, columnspan = 3)
+        self.text_note = Text(master, height=10, width=60)
+        self.text_note.grid(row = 1, column = 0, columnspan = 3)
 
-        Label(master, text="File name:").grid(row = 2, column = 0)
+        self.label_filename = ttk.Label(master, text="File name:")
+        self.label_filename.grid(row = 2, column = 0)
 
-        Entry(master).grid(row = 2, column = 1)
+        self.entry_filename = ttk.Entry(master)
+        self.entry_filename.grid(row = 2, column = 1)
 
-        B = Button(master, text="Add").grid(row = 2, column = 2)
+        self.button_save = ttk.Button(
+                master, text="Save", command = lambda: self.save_note(
+                master))
+        self.button_save.grid(row = 2, column = 2)
 
 
     def __init__(self, master):
@@ -55,10 +75,8 @@ class NotesApp:
         """
 
         # Initial configuration
-        self.update_status(master, "")
         is_ok, msg = self.check_configuration()
         self.update_status(master, msg)
-        self.label_status.grid(row = 0, column = 0, columnspan = 3)
 
         # Manage notes
         if is_ok:
