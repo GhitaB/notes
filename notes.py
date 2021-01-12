@@ -35,10 +35,9 @@ class NotesApp:
     def update_status(self, master, msg):
         """ Show a message as status
         """
-        v = StringVar()
-        self.label_status = Label(master, textvariable = v)
+        self.label_status = Label(master)
         self.label_status.grid(row = 0, column = 0, columnspan = 3)
-        v.set(msg)
+        self.label_status.configure(text = msg)
 
     def save_note(self, master):
         """ On save
