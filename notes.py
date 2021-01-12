@@ -11,38 +11,40 @@ STATUS_FOLDER_SUCCESS = u"Status: The folder for notes was created."
 STATUS_FOLDER_FAIL = u"Status: Cannot create the folder for notes."
 FOLDER_NOTES = "./my-notes/"
 
+
 class NotesApp:
-    def do_configuration(self):
+    def check_configuration(self):
         if path.exists(FOLDER_NOTES):
             msg = STATUS_FOLDER_EXISTS
+            ok = True
         else:
             try:
                 os.makedirs(FOLDER_NOTES)
                 msg = STATUS_FOLDER_SUCCESS
+                ok = True
             except Exception:
                 msg = STATUS_FOLDER_FAIL
+                ok = False
 
-        return msg
+        return (ok, msg)
 
+    def update_status(self, master, msg):
+        self.label_status = ttk.Label(master, text = msg)
+
+    def create_editor(self, master):
+        T = Text(master, height=10, width=60)
+        T.grid(row = 1, column = 0, columnspan = 2)
 
     def __init__(self, master):
-
-        msg = self.do_configuration()
-
-        self.label_status = ttk.Label(master, text = msg)
+        # Initial configuration
+        self.update_status(master, "")
+        is_ok, msg = self.check_configuration()
+        self.update_status(master, msg)
         self.label_status.grid(row = 0, column = 0, columnspan = 2)
 
-        # ttk.Button(master, text = "Romania",
-        #            command = self.romania_hello).grid(row = 1, column = 0)
-        #
-        # ttk.Button(master, text = "USA",
-        #            command = self.usa_hello).grid(row = 1, column = 1)
-
-    # def romania_hello(self):
-    #     self.label.config(text = 'Hello, Romania!')
-    #
-    # def usa_hello(self):
-    #     self.label.config(text = 'Hi, USA!')
+        # Manage notes
+        if is_ok:
+            self.create_editor(master)
 
 
 def main():
