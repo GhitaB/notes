@@ -41,11 +41,13 @@ class NotesApp:
         """ Set the editor for notes
         """
         T = Text(master, height=10, width=60)
-        T.grid(row = 1, column = 0, columnspan = 2)
+        T.grid(row = 1, column = 0, columnspan = 3)
 
         Label(master, text="File name:").grid(row = 2, column = 0)
 
         Entry(master).grid(row = 2, column = 1)
+
+        B = Button(master, text="Add").grid(row = 2, column = 2)
 
 
     def __init__(self, master):
@@ -56,7 +58,7 @@ class NotesApp:
         self.update_status(master, "")
         is_ok, msg = self.check_configuration()
         self.update_status(master, msg)
-        self.label_status.grid(row = 0, column = 0, columnspan = 2)
+        self.label_status.grid(row = 0, column = 0, columnspan = 3)
 
         # Manage notes
         if is_ok:
