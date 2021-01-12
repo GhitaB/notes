@@ -35,12 +35,10 @@ class NotesApp:
     def update_status(self, master, msg):
         """ Show a message as status
         """
-        self.label_status = Label(master)
-        self.label_status.grid(row = 0, column = 0, columnspan = 3)
         self.label_status.configure(text = msg)
 
     def save_note(self, master):
-        """ On save
+        """ On save put the text in the file, in notes folder
         """
         filename = self.entry_filename.get()
         text = self.text_note.get('1.0', 'end')
@@ -49,7 +47,7 @@ class NotesApp:
         note.write(text)
         note.close()
 
-        self.update_status(master, "Status: saved ")
+        self.update_status(master, "Status: saved " + filename)
 
     def create_editor(self, master):
         """ Set the editor for notes
@@ -75,6 +73,8 @@ class NotesApp:
 
         # Initial configuration
         is_ok, msg = self.check_configuration()
+        self.label_status = Label(master)
+        self.label_status.grid(row = 0, column = 0, columnspan = 3)
         self.update_status(master, msg)
 
         # Manage notes
