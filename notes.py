@@ -5,6 +5,8 @@ from tkinter import *
 from tkinter import ttk
 import os.path
 from os import path
+from datetime import datetime
+
 
 STATUS_FOLDER_EXISTS = u"Status: Configuration is ok."
 STATUS_FOLDER_SUCCESS = u"Status: The folder for notes was created."
@@ -59,6 +61,10 @@ class NotesApp:
         self.label_filename.grid(row = 2, column = 0)
 
         self.entry_filename = ttk.Entry(master)
+
+        now = datetime.now()
+        default_filename = now.strftime("%Y_%m_%d__%H_%M_%S.txt")
+        self.entry_filename.insert(END, default_filename)
         self.entry_filename.grid(row = 2, column = 1)
 
         self.button_save = ttk.Button(
