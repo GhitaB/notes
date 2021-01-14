@@ -4,6 +4,7 @@
 from tkinter import *
 from tkinter import ttk
 import os.path
+import os
 from os import path
 from datetime import datetime
 
@@ -73,6 +74,34 @@ class NotesApp:
         self.button_save.grid(row = 2, column = 2)
 
 
+    def get_note_text(self, filename):
+        """ Return the content of a note
+        """
+        path = FOLDER_NOTES + filename
+        f = open(path, "r")
+        lines = f.readlines()
+        f.close()
+        return lines
+
+    def list_notes(self, master):
+        """ List the history of notes
+        """
+        list_of_notes = sorted(os.listdir(FOLDER_NOTES), reverse=True)
+        self.text_list_notes = Text(master, height=10, width=60)
+        self.text_list_notes.grid(row = 3, column = 0, columnspan = 3)
+        text = ""
+        end_note = "--------------------------------\n"
+
+        for note in list_of_notes:
+            text += note
+            text += "\n"
+            note_lines = self.get_note_text(note)
+            text += "\n".join(note_lines)
+            text += end_note
+
+        self.text_list_notes.insert(END, text)
+
+
     def __init__(self, master):
         """ The app
         """
@@ -86,6 +115,7 @@ class NotesApp:
         # Manage notes
         if is_ok:
             self.create_editor(master)
+            self.list_notes(master)
 
 
 def main():
