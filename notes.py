@@ -94,7 +94,7 @@ class NotesApp:
 
         for note in list_of_notes:
             text += note
-            text += "\n"
+            text += "\n\n"
             note_lines = self.get_note_text(note)
             text += "\n".join(note_lines)
             text += end_note
